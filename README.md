@@ -1,3 +1,3 @@
 ### Class diagram
 
-![Class_diagram](favouritebooks.drawio.png)
+![Class](class_diagram.png)
