@@ -18,9 +18,8 @@ import java.util.List;
 public class Book {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull
-    private Long id;
+    private String id;
 
     @NotNull
     private String title;
@@ -32,7 +31,8 @@ public class Book {
     @JsonIgnore
     private List<Favourite> favourites;
 
-    public Book(String title, String author) {
+    public Book(String id, String title, String author) {
+        this.id = id;
         this.title = title;
         this.author = author;
     }

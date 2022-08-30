@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -33,9 +34,9 @@ public class User {
     )
     private List<Favourite> favourites;
 
-    public User(String name, List<Favourite> favourites) {
+    public User(String name) {
         this.name = name;
-        this.favourites = favourites;
+        this.favourites = new ArrayList<>();
     }
 
     public User fromDTO(UserDTO userDTO) {
