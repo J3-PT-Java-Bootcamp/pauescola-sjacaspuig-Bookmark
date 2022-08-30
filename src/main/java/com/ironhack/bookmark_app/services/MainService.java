@@ -22,11 +22,6 @@ public class MainService {
         System.out.println("Hello, welcome to the Bookmark Application!");
         System.out.println("Type 'help' to see the available commands");
 
-//        Register user *
-//        Show users *
-//        Show a user
-//        Search a book *
-
         final var commander = new Commander<CommandType>(new Command[] {
 
                 // General commands
