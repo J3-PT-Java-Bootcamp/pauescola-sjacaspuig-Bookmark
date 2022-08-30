@@ -32,13 +32,16 @@ public class Book {
     @JsonIgnore
     private List<Favourite> favourites;
 
-    public Book(Long id, String title, String author) {
-        this.id = id;
+    public Book(String title, String author) {
         this.title = title;
         this.author = author;
     }
 
     public Book fromDTO(BookDTO bookDTO) {
-        return new Book(bookDTO.getId(), bookDTO.getTitle(), bookDTO.getAuthor());
+        var book = new Book();
+        book.setId(bookDTO.getId());
+        book.setTitle(bookDTO.getTitle());
+        book.setAuthor(bookDTO.getAuthor());
+        return book;
     }
 }

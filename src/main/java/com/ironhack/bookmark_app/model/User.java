@@ -33,13 +33,16 @@ public class User {
     )
     private List<Favourite> favourites;
 
-    public User(Long id, String name, List<Favourite> favourites) {
-        this.id = id;
+    public User(String name, List<Favourite> favourites) {
         this.name = name;
         this.favourites = favourites;
     }
 
     public User fromDTO(UserDTO userDTO) {
-        return new User(userDTO.getId(), userDTO.getName(), userDTO.getFavourites());
+        var user = new User();
+        user.setId(userDTO.getId());
+        user.setName(userDTO.getName());
+        user.setFavourites(userDTO.getFavourites());
+        return user;
     }
 }

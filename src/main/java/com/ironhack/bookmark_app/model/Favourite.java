@@ -35,13 +35,16 @@ public class Favourite {
     @JsonIgnore
     private List<User> users;
 
-    public Favourite(Long id, Book item, FavouriteStatus status) {
-        this.id = id;
+    public Favourite(Book item, FavouriteStatus status) {
         this.item = item;
         this.status = status;
     }
 
     public Favourite fromDTO(FavouriteDTO favouriteDTO) {
-        return new Favourite((favouriteDTO.getId()), favouriteDTO.getItem(), favouriteDTO.getStatus());
+        var favourite = new Favourite();
+        favourite.setId(favouriteDTO.getId());
+        favourite.setItem(favouriteDTO.getItem());
+        favourite.setStatus(favouriteDTO.getStatus());
+        return favourite;
     }
 }
