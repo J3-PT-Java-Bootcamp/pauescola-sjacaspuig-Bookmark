@@ -18,24 +18,23 @@ import java.util.List;
 public class Book {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull
-    private Long id;
+    private String key;
 
     @NotNull
     private String title;
 
     @NotNull
-    private String author;
+    private String author_name;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="item")
     @JsonIgnore
     private List<Favourite> favourites;
 
-    public Book(Long id, String title, String author) {
-        this.id = id;
+    public Book(String id, String title, String author) {
+        this.key = id;
         this.title = title;
-        this.author = author;
+        this.author_name = author;
     }
 
     public Book fromDTO(BookDTO bookDTO) {
