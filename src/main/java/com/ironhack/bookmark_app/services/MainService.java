@@ -3,6 +3,7 @@ package com.ironhack.bookmark_app.services;
 import com.ironhack.bookmark_app.commander.Command;
 import com.ironhack.bookmark_app.commander.Commander;
 import com.ironhack.bookmark_app.enums.CommandType;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
@@ -10,11 +11,21 @@ import org.springframework.stereotype.Service;
 @Service
 public class MainService {
 
+    @Autowired
+    UserService userService;
+
+
+
     @EventListener(ApplicationReadyEvent.class)
     public void MainService() {
 
         System.out.println("Hello, welcome to the Bookmark Application!");
         System.out.println("Type 'help' to see the available commands");
+
+//        Register user *
+//        Show users *
+//        Show a user
+//        Search a book *
 
         final var commander = new Commander<CommandType>(new Command[] {
 
@@ -23,6 +34,18 @@ public class MainService {
                 new Command<>("help", CommandType.HELP).addOnRun((cr) -> {
                     System.out.println("\nAvailable commands:");
                     System.out.println("\t1. exit - Exit the application");
+                }),
+                new Command<>("new user", CommandType.NEW_USER).addOnRun((cr) -> {
+                    userService.createUser();
+                }),
+                new Command<>("lookup user :id", CommandType.LOOKUP_USER).addOnRun((cr) -> {
+                    userService.showById(cr.getLongParameter("id"));
+                }),
+                new Command<>("show users", CommandType.SHOW_USERS).addOnRun((cr) -> {
+                    userService.showAll();
+                }),
+                new Command<>("search book", CommandType.SEARCH_BOOK).addOnRun((cr) -> {
+                    //TODO: Create a Book Api Service within a method to search books
                 }),
         });
 
