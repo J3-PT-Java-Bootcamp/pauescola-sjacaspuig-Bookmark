@@ -40,4 +40,9 @@ public class Book {
     public Book fromDTO(BookDTO bookDTO) {
         return new Book(bookDTO.getId(), bookDTO.getTitle(), bookDTO.getAuthor());
     }
+
+    @Override
+    public String toString() {
+        return  "Title: " + title + "   "+"Author(s): " + author_name +".";
+    }
 }

@@ -27,4 +27,7 @@ public class CommandResult<T> {
     public Long getLongParameter(String key) {
         return Long.parseLong((getParameters().get(key)));
     }
+
+    public String getParameter(String text) {return (getParameters().get(text));
+    }
 }

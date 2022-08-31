@@ -1,5 +1,6 @@
 package com.ironhack.bookmark_app.commander;
 
+import com.ironhack.bookmark_app.enums.CommandType;
 import com.ironhack.bookmark_app.userinput.UserInput;
 
 public class Commander<T> {
@@ -30,6 +31,7 @@ public class Commander<T> {
             if(commandResult == null) {
                 System.out.println("[!] The command does not exist");
             }
+
         } while (commandResult == null);
 
         if(autorun) commandResult.run();
