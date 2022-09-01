@@ -3,10 +3,18 @@ package com.ironhack.bookmark_app.services;
 import com.ironhack.bookmark_app.commander.Command;
 import com.ironhack.bookmark_app.commander.Commander;
 import com.ironhack.bookmark_app.enums.CommandType;
+import org.json.simple.parser.ParseException;
+import org.springframework.beans.factory.annotation.Autowired;
+import com.ironhack.bookmark_app.model.Book;
+import com.ironhack.bookmark_app.userinput.UserInput;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 @Service
 public class MainService {
@@ -14,7 +22,8 @@ public class MainService {
     @Autowired
     UserService userService;
 
-
+    @Autowired
+    ApiService apiService;
 
     @EventListener(ApplicationReadyEvent.class)
     public void MainService() {
@@ -22,7 +31,7 @@ public class MainService {
         System.out.println("Hello, welcome to the Bookmark Application!");
         System.out.println("Type 'help' to see the available commands");
 
-        final var commander = new Commander<CommandType>(new Command[] {
+        final var commander = new Commander<CommandType>(new Command[]{
 
                 // General commands
                 new Command<>("exit", CommandType.EXIT),
@@ -40,7 +49,11 @@ public class MainService {
                     userService.showAll();
                 }),
                 new Command<>("search book", CommandType.SEARCH_BOOK).addOnRun((cr) -> {
-                    //TODO: Create a Book Api Service within a method to search books
+                    try {
+                        apiService.searchBook();
+                    } catch (ParseException e) {
+                        throw new RuntimeException("Book not found");
+                    }
                 }),
         });
 
@@ -49,10 +62,11 @@ public class MainService {
 
         do {
             var command = commander.askForCommand();
-            if(command.getResult() == CommandType.EXIT) {
+            if (command.getResult() == CommandType.EXIT) {
                 System.out.println("The application has been closed\n");
                 break;
             }
+
         } while (true);
     }
 }

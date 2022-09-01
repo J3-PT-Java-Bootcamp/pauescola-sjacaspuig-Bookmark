@@ -1,6 +1,5 @@
 package com.ironhack.bookmark_app.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ironhack.bookmark_app.dto.BookDTO;
 import com.sun.istack.NotNull;
 import lombok.Getter;
@@ -25,7 +24,7 @@ public class Book {
     private String title;
 
     @NotNull
-    private String author;
+    private String authorName;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="item")
     private List<Favourite> favourites;
@@ -33,14 +32,19 @@ public class Book {
     public Book(String id, String title, String author) {
         this.id = id;
         this.title = title;
-        this.author = author;
+        this.authorName = author;
     }
 
     public Book fromDTO(BookDTO bookDTO) {
         var book = new Book();
         book.setId(bookDTO.getId());
         book.setTitle(bookDTO.getTitle());
-        book.setAuthor(bookDTO.getAuthor());
+        book.setAuthorName(bookDTO.getAuthorName());
         return book;
+    }
+
+    @Override
+    public String toString() {
+        return  "Title: " + title + "   "+"Author(s): " + authorName +".";
     }
 }
