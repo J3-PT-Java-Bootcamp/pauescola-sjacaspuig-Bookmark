@@ -5,16 +5,9 @@ import com.ironhack.bookmark_app.commander.Commander;
 import com.ironhack.bookmark_app.enums.CommandType;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.ironhack.bookmark_app.model.Book;
-import com.ironhack.bookmark_app.userinput.UserInput;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
 
 @Service
 public class MainService {

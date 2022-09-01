@@ -33,7 +33,7 @@ public class ApiService {
         }
     }
 
-    public ArrayList<Book> findByTitle() throws ParseException {
+    public List<Book> findByTitle() throws ParseException {
         System.out.println("Write the title:");
         String title = new Scanner(System.in).nextLine();
         String titleFixed = title.trim();
@@ -52,7 +52,7 @@ public class ApiService {
         return convertDataToResults(bookResults);
     }
 
-    public static ArrayList<Book> convertDataToResults(Object results) throws ParseException {
+    public static List<Book> convertDataToResults(Object results) throws ParseException {
         Gson booksToShow = new Gson();
 
         JSONParser jsonParser = new JSONParser();
