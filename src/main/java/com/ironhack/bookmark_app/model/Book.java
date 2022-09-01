@@ -1,6 +1,5 @@
 package com.ironhack.bookmark_app.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ironhack.bookmark_app.dto.BookDTO;
 import com.sun.istack.NotNull;
 import lombok.Getter;
@@ -19,34 +18,33 @@ public class Book {
 
     @Id
     @NotNull
-    private String key;
+    private String id;
 
     @NotNull
     private String title;
 
     @NotNull
-    private String author_name;
+    private String authorName;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="item")
-    @JsonIgnore
     private List<Favourite> favourites;
 
     public Book(String id, String title, String author) {
-        this.key = id;
+        this.id = id;
         this.title = title;
-        this.author_name = author;
+        this.authorName = author;
     }
 
     public Book fromDTO(BookDTO bookDTO) {
         var book = new Book();
-        book.setKey(bookDTO.getId());
+        book.setId(bookDTO.getId());
         book.setTitle(bookDTO.getTitle());
-        book.setAuthor_name(bookDTO.getAuthor());
+        book.setAuthorName(bookDTO.getAuthorName());
         return book;
     }
 
     @Override
     public String toString() {
-        return  "Title: " + title + "   "+"Author(s): " + author_name +".";
+        return  "Title: " + title + "   "+"Author(s): " + authorName +".";
     }
 }

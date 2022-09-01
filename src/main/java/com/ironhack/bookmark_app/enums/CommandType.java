@@ -6,7 +6,6 @@ public enum CommandType {
     NEW_USER,
     SHOW_USERS,
     LOOKUP_USER,
-    SEARCH_BOOK;
-
+    SEARCH_BOOK
 }
 

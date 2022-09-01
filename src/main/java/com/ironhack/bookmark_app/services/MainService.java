@@ -3,15 +3,11 @@ package com.ironhack.bookmark_app.services;
 import com.ironhack.bookmark_app.commander.Command;
 import com.ironhack.bookmark_app.commander.Commander;
 import com.ironhack.bookmark_app.enums.CommandType;
-import org.springframework.beans.factory.annotation.Autowired;
-import com.ironhack.bookmark_app.model.Book;
-import com.ironhack.bookmark_app.userinput.UserInput;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
-
-import java.util.Scanner;
 
 @Service
 public class MainService {
@@ -19,13 +15,11 @@ public class MainService {
     @Autowired
     UserService userService;
 
-
-
     @Autowired
     ApiService apiService;
 
     @EventListener(ApplicationReadyEvent.class)
-    public void MainService() throws Exception {
+    public void MainService() {
 
         System.out.println("Hello, welcome to the Bookmark Application!");
         System.out.println("Type 'help' to see the available commands");
@@ -49,12 +43,9 @@ public class MainService {
                 }),
                 new Command<>("search book", CommandType.SEARCH_BOOK).addOnRun((cr) -> {
                     try {
-                        var toShow = apiService.findByTitle();
-                        for(Book i:toShow){
-                            System.out.println(i);
-                        }
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
+                        apiService.searchBook();
+                    } catch (ParseException e) {
+                        throw new RuntimeException("Book not found");
                     }
                 }),
         });
