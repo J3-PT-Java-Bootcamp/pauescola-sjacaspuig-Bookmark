@@ -17,7 +17,9 @@ public class ApiService {
     private WebClient client = WebClient.create("https://openlibrary.org");
 
     public ArrayList<Book> findByTitle(String title, int limit) throws Exception {
-        String titleFixed = title.trim().replace(" ", "+");
+        String titleFixed = title.trim();
+        titleFixed = titleFixed.toLowerCase();
+        titleFixed = titleFixed.replace(" ","+");
         var bookResults = client.get()
                 .uri("/search.json?title=" + titleFixed + "&limit=" + limit)
                 .retrieve()
@@ -29,9 +31,6 @@ public class ApiService {
 
     public static ArrayList<Book> convertDataToResults(Object results) throws Exception {
         Gson booksToShow = new Gson();
-        /*var writer = new FileWriter("BooksToShow.json", false);
-        writer.write(booksToShow.toJson(results));
-        writer.close();*/
         JSONParser jsonParser = new JSONParser();
         JSONObject jsonObject = (JSONObject) jsonParser.parse(booksToShow.toJson(results));
         JSONArray jsonArray = (JSONArray) jsonObject.get("docs");
