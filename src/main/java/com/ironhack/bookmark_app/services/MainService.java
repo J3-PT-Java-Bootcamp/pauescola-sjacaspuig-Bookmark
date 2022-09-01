@@ -47,10 +47,16 @@ public class MainService {
                 new Command<>("show users", CommandType.SHOW_USERS).addOnRun((cr) -> {
                     userService.showAll();
                 }),
-                /*new Command<>("search book", CommandType.SEARCH_BOOK).addOnRun((cr) -> {
-                    //TODO: Create a Book Api Service within a method to search books
-                }),*/
-                new Command<> ("find :text", CommandType.FIND)
+                new Command<>("search book", CommandType.SEARCH_BOOK).addOnRun((cr) -> {
+                    try {
+                        var toShow = apiService.findByTitle();
+                        for(Book i:toShow){
+                            System.out.println(i);
+                        }
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }),
         });
 
         // Run event when a command is executed
@@ -62,22 +68,7 @@ public class MainService {
                 System.out.println("The application has been closed\n");
                 break;
             }
-            if(command.getResult() == CommandType.FIND) {
-                String title = command.getParameter("text");
-                System.out.println("How many results you want?");
-                int limit = new Scanner(System.in).nextInt();
-                try {
 
-                    var toShow = apiService.findByTitle(title, limit);
-                    for(Book i:toShow){
-                        System.out.println(i);
-                    }
-
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
-
-            }
         } while (true);
     }
 }

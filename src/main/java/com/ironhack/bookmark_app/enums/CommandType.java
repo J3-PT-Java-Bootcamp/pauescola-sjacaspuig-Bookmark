@@ -6,7 +6,7 @@ public enum CommandType {
     NEW_USER,
     SHOW_USERS,
     LOOKUP_USER,
-   // SEARCH_BOOK, millorar integració
-    FIND;
+    SEARCH_BOOK;
+
 }
 

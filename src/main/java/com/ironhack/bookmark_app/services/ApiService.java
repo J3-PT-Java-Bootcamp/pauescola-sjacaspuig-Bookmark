@@ -10,13 +10,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 @Service
 public class ApiService {
 
     private WebClient client = WebClient.create("https://openlibrary.org");
 
-    public ArrayList<Book> findByTitle(String title, int limit) throws Exception {
+    public ArrayList<Book> findByTitle() throws Exception {
+        System.out.println("Write the title:");
+        String title = new Scanner(System.in).nextLine();
+        System.out.println("How many results do you want?");
+        int limit = new Scanner(System.in).nextInt();
         String titleFixed = title.trim();
         titleFixed = titleFixed.toLowerCase();
         titleFixed = titleFixed.replace(" ","+");
