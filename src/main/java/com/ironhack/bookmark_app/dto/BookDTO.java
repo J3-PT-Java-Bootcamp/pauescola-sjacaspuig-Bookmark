@@ -18,6 +18,6 @@ public class BookDTO {
     private String author;
 
     public BookDTO fromEntity(Book book) {
-        return new BookDTO(book.getId(), book.getTitle(), book.getAuthor());
+        return new BookDTO(book.getKey(), book.getTitle(), book.getAuthor_name());
     }
 }

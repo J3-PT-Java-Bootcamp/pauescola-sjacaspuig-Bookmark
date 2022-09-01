@@ -19,28 +19,34 @@ public class Book {
 
     @Id
     @NotNull
-    private String id;
+    private String key;
 
     @NotNull
     private String title;
 
     @NotNull
-    private String author;
+    private String author_name;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="item")
+    @JsonIgnore
     private List<Favourite> favourites;
 
     public Book(String id, String title, String author) {
-        this.id = id;
+        this.key = id;
         this.title = title;
-        this.author = author;
+        this.author_name = author;
     }
 
     public Book fromDTO(BookDTO bookDTO) {
         var book = new Book();
-        book.setId(bookDTO.getId());
+        book.setKey(bookDTO.getId());
         book.setTitle(bookDTO.getTitle());
-        book.setAuthor(bookDTO.getAuthor());
+        book.setAuthor_name(bookDTO.getAuthor());
         return book;
+    }
+
+    @Override
+    public String toString() {
+        return  "Title: " + title + "   "+"Author(s): " + author_name +".";
     }
 }
