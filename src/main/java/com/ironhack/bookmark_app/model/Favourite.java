@@ -31,9 +31,9 @@ public class Favourite {
     @Enumerated(EnumType.STRING)
     private FavouriteStatus status;
 
-    @ManyToMany(mappedBy = "favourites")
-    @JsonIgnore
-    private List<User> users;
+    @ManyToOne
+    @JoinColumn( name = "user_id")
+    private User user;
 
     public Favourite(Book item) {
         this.item = item;
