@@ -18,23 +18,18 @@ public class BookServiceImpl implements BookService {
     BookRepository bookRepository;
 
     @Override
-    public void saveBook(Book book) {
-        bookRepository.save(book);
+    public void showAll() {
+        bookRepository.findAll().forEach((Book book) -> {
+            var bookDTO = BookDTO.fromEntity(book);
+            System.out.println("\n" + bookDTO.toString()  + "\n");
+        });
+    }
+
+    @Override
+    public BookDTO saveBook(BookDTO bookDTO) {
+        var book = Book.fromDTO(bookDTO);
+        var bookSaved = bookRepository.save(book);
         System.out.println(book.getTitle() + " correctly stored!!");
-    }
-
-    @Override
-    public List<BookDTO> showAll() {
-        var allBooks = bookRepository.findAll();
-        List<BookDTO> booksToShow = new ArrayList<>();
-        for (Book book:allBooks){
-            booksToShow.add(new BookDTO().fromEntity(book));
-        }
-        return booksToShow;
-    }
-
-    @Override
-    public void printList(List<BookDTO> bookDTOS) {
-        for (BookDTO i : bookDTOS) {System.out.println(i.toString(true));}
+        return BookDTO.fromEntity(bookSaved);
     }
 }

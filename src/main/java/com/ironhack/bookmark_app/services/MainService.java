@@ -50,15 +50,38 @@ public class MainService {
                     } catch (ParseException e) {
                         throw new RuntimeException("Book not found");
                     }
+
                 }),
                 new Command<>("show library", CommandType.SHOW_LIBRARY).addOnRun((cr) -> {
-                   bookService.printList(bookService.showAll());
+                    bookService.printList(bookService.showAll());
                 }),
                 new Command<>("assign book", CommandType.SHOW_LIBRARY).addOnRun((cr) -> {
                     bookService.printList(bookService.showAll());
                 }),
-                new Command<>("show library", CommandType.SHOW_LIBRARY).addOnRun((cr) -> {
-                    bookService.printList(bookService.showAll());
+
+                new Command<>("report users by book", CommandType.USERS_BY_BOOK).addOnRun((cr) -> {
+                    bookService.showAll();
+                }),
+                new Command<>("report users to read by book", CommandType.USERS_TO_READ_BY_BOOK).addOnRun((cr) -> {
+                    bookService.showAll();
+                }),
+                new Command<>("report users reading by book", CommandType.USERS_READING_BY_BOOK).addOnRun((cr) -> {
+                    bookService.showAll();
+                }),
+                new Command<>("report users read by user", CommandType.USERS_READ_BY_BOOK).addOnRun((cr) -> {
+                    bookService.showAll();
+                }),
+                new Command<>("report books by user", CommandType.BOOKS_BY_USER).addOnRun((cr) -> {
+                    bookService.showAll();
+                }),
+                new Command<>("report books to read by user", CommandType.BOOKS_TO_READ_BY_USER).addOnRun((cr) -> {
+                    bookService.showAll();
+                }),
+                new Command<>("report books reading by user", CommandType.BOOKS_READING_BY_USER).addOnRun((cr) -> {
+                    bookService.showAll();
+                }),
+                new Command<>("report books read by user", CommandType.BOOKS_READ_BY_USER).addOnRun((cr) -> {
+                    bookService.showAll();
                 }),
         });
 

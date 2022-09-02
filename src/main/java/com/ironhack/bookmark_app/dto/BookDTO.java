@@ -17,7 +17,7 @@ public class BookDTO {
     private String title;
     private String authorName;
 
-    public BookDTO fromEntity(Book book) {
+    public static BookDTO fromEntity(Book book) {
         return new BookDTO(book.getId(), book.getTitle(), book.getAuthorName());
     }
 
