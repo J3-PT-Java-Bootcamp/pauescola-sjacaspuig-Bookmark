@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -91,10 +92,10 @@ public class UserServiceImpl implements UserService {
     }
 
     private boolean hasFavouriteSaved(UserDTO user, BookDTO book) {
-var size = user.getFavourites().size();
+
         for (FavouriteDTO favourite: user.getFavourites()) {
 
-            if (favourite.getItem().getId() == book.getId()) {
+            if (Objects.equals(favourite.getItem().getId(), book.getId())) {
                 return true;
             }
         }
