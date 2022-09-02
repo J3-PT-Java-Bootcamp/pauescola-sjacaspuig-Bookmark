@@ -20,7 +20,6 @@ public class Favourite {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotNull
     private Long id;
 
     @NotNull
@@ -40,7 +39,7 @@ public class Favourite {
         this.status = FavouriteStatus.TODO;
     }
 
-    public Favourite fromDTO(FavouriteDTO favouriteDTO) {
+    public static Favourite fromDTO(FavouriteDTO favouriteDTO) {
         var favourite = new Favourite();
         favourite.setId(favouriteDTO.getId());
         favourite.setItem(favouriteDTO.getItem());

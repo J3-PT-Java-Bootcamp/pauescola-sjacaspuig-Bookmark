@@ -35,16 +35,11 @@ public class Book {
         this.authorName = author;
     }
 
-    public Book fromDTO(BookDTO bookDTO) {
+    public static Book fromDTO(BookDTO bookDTO) {
         var book = new Book();
         book.setId(bookDTO.getId());
         book.setTitle(bookDTO.getTitle());
         book.setAuthorName(bookDTO.getAuthorName());
         return book;
-    }
-
-    @Override
-    public String toString() {
-        return  "Title: " + title + "   "+"Author(s): " + authorName +".";
     }
 }
