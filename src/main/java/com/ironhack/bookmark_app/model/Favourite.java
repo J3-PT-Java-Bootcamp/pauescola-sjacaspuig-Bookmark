@@ -35,9 +35,10 @@ public class Favourite {
     @JsonIgnore
     private User user;
 
-    public Favourite(Book item) {
+    public Favourite(Book item, User user) {
         this.item = item;
         this.status = FavouriteStatus.TODO;
+        this.user = user;
     }
 
     public static Favourite fromDTO(FavouriteDTO favouriteDTO) {

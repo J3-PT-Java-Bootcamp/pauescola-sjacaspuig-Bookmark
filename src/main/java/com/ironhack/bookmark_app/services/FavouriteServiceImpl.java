@@ -16,7 +16,7 @@ public class FavouriteServiceImpl implements FavouriteService {
     public FavouriteDTO saveFavourite(FavouriteDTO favouriteDTO) {
         var favourite = Favourite.fromDTO(favouriteDTO);
         favourite.setId(null);
-        var favouriteSaved = favouriteRepository.save(favourite);
+        Favourite favouriteSaved = favouriteRepository.save(favourite);
         return FavouriteDTO.fromEntity(favouriteSaved);
     }
 }

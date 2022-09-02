@@ -20,6 +20,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    BookService bookService;
+
     @Override
     public UserDTO createUser() {
 
@@ -62,13 +65,40 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO addBook(Long userId, BookDTO bookDTO) throws NotFoundException {
+    public UserDTO assignBook(Long userId, String bookId) throws NotFoundException {
+        var bookDTO = bookService.findById(bookId);
         var userDTO = findById(userId);
+
+        if(hasFavouriteSaved(userDTO, bookDTO)) {
+            System.out.println("User already have this book as favourite");
+            return userDTO;
+        }
+
         var user = User.fromDTO(userDTO);
         var book = Book.fromDTO(bookDTO);
-        var favourite = new Favourite(book);
-        user.getFavourites().add(favourite);
+
+        var favourite = new Favourite(book, user);
+        var userFavourites = user.getFavourites();
+        userFavourites.add(favourite);
+        user.setFavourites(userFavourites);
+
         var userSaved = userRepository.save(user);
+
+        System.out.println("Book correctly assigned");
+        showById(userSaved.getId());
+
         return UserDTO.fromEntity(userSaved);
+    }
+
+    private boolean hasFavouriteSaved(UserDTO user, BookDTO book) {
+var size = user.getFavourites().size();
+        for (FavouriteDTO favourite: user.getFavourites()) {
+
+            if (favourite.getItem().getId() == book.getId()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

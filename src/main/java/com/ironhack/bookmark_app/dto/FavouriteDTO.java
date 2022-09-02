@@ -21,4 +21,21 @@ public class FavouriteDTO {
     public static FavouriteDTO fromEntity(Favourite favourite) {
         return new FavouriteDTO(favourite.getId(), favourite.getItem(), favourite.getStatus());
     }
+
+    @Override
+    public String toString() {
+        return "[" + id + "]" + "\n" +
+                "Book: " + BookDTO.fromEntity(item).toString(false) + "\n" +
+                "Status: " + statusToString() + "\n";
+    }
+
+    private String statusToString() {
+        var s = "";
+        switch (status) {
+            case TODO -> s =  "TO READ";
+            case DOING -> s = "READING";
+            case DONE -> s = "READ";
+        }
+        return s;
+    }
 }

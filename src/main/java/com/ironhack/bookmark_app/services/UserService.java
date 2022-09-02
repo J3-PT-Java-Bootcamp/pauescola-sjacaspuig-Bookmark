@@ -9,8 +9,8 @@ import java.util.List;
 
 public interface UserService {
     UserDTO createUser();
-    UserDTO findById(Long id) throws Exception;
+    UserDTO findById(Long id) throws NotFoundException;
     void showAll();
     void showById(Long id);
-    UserDTO addBook(Long userId, BookDTO bookDTO) throws NotFoundException;
+    UserDTO assignBook(Long userId, String bookId) throws NotFoundException;
 }
