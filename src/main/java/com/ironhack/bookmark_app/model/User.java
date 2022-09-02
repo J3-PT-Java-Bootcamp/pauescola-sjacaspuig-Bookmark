@@ -1,5 +1,6 @@
 package com.ironhack.bookmark_app.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ironhack.bookmark_app.dto.UserDTO;
 import com.sun.istack.NotNull;
 import lombok.Getter;
@@ -24,12 +25,10 @@ public class User {
     @NotNull
     private String name;
 
-    @NotNull
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "favourites_of_user",
-            joinColumns = @JoinColumn(name="user_id"),
-            inverseJoinColumns = @JoinColumn(name= "favourite_id")
+    @OneToMany(
+            mappedBy = "user",
+            fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL
     )
     private List<Favourite> favourites;
 

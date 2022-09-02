@@ -21,8 +21,13 @@ public class BookDTO {
         return new BookDTO(book.getId(), book.getTitle(), book.getAuthorName());
     }
 
-    @Override
-    public String toString() {
-        return  "Title: " + title + "   "+"Author(s): " + authorName +".";
+
+    public String toString(boolean printFull) {
+        if(printFull) {
+            return "[" + id + "]" + "\n" +
+                    "Title: " + title + "\n" +
+                    "Author(s): " + authorName + "\n";
+        }
+        else {return  "Title: " + title + "   "+"Author(s): " + authorName +".";}
     }
 }

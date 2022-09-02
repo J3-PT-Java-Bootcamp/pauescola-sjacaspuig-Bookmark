@@ -50,10 +50,15 @@ public class MainService {
                     } catch (ParseException e) {
                         throw new RuntimeException("Book not found");
                     }
+
                 }),
-                new Command<>("show books", CommandType.SHOW_BOOKS).addOnRun((cr) -> {
+                new Command<>("show library", CommandType.SHOW_LIBRARY).addOnRun((cr) -> {
                     bookService.showAll();
                 }),
+                new Command<>("assign book", CommandType.SHOW_LIBRARY).addOnRun((cr) -> {
+                    bookService.showAll();
+                }),
+
                 new Command<>("report users by book", CommandType.USERS_BY_BOOK).addOnRun((cr) -> {
                     bookService.showAll();
                 }),

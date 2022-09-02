@@ -1,9 +1,8 @@
 package com.ironhack.bookmark_app.services;
 
 import com.ironhack.bookmark_app.dto.BookDTO;
-import com.ironhack.bookmark_app.model.Book;
-import org.json.simple.parser.ParseException;
 
+import org.json.simple.parser.ParseException;
 import java.util.List;
 
 public interface ApiService {

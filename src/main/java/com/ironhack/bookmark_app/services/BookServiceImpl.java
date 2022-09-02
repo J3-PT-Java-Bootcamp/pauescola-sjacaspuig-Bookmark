@@ -8,6 +8,9 @@ import com.ironhack.bookmark_app.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class BookServiceImpl implements BookService {
 
@@ -18,7 +21,7 @@ public class BookServiceImpl implements BookService {
     public void showAll() {
         bookRepository.findAll().forEach((Book book) -> {
             var bookDTO = BookDTO.fromEntity(book);
-            System.out.println("\n" + bookDTO.toString()  + "\n");
+            System.out.println("\n" + bookDTO.toString(true));
         });
     }
 
@@ -26,6 +29,7 @@ public class BookServiceImpl implements BookService {
     public BookDTO saveBook(BookDTO bookDTO) {
         var book = Book.fromDTO(bookDTO);
         var bookSaved = bookRepository.save(book);
+        System.out.println(book.getTitle() + " correctly stored!!");
         return BookDTO.fromEntity(bookSaved);
     }
 }

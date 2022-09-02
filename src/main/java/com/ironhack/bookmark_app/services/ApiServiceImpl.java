@@ -2,9 +2,9 @@ package com.ironhack.bookmark_app.services;
 
 import com.google.gson.Gson;
 import com.ironhack.bookmark_app.dto.BookDTO;
-import com.ironhack.bookmark_app.dto.UserDTO;
 import com.ironhack.bookmark_app.model.Book;
 
+import com.ironhack.bookmark_app.userinput.UserInput;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -25,9 +25,6 @@ public class ApiServiceImpl implements ApiService {
     BookService bookService;
 
     @Autowired
-    FavouriteService favouriteService;
-
-    @Autowired
     UserService userService;
 
     final int size = 16 * 1024 * 1024;
@@ -40,19 +37,38 @@ public class ApiServiceImpl implements ApiService {
 
     @Override
     public void searchBook() throws ParseException {
-        try {
-            List<BookDTO> booksDTO = findByTitle();
+        List<BookDTO> booksDTO = findByTitle();
+        choiceProcessing(booksDTO);
+    }
 
-            var bookSavedDTO = bookService.saveBook(booksDTO.get(0));
-            UserDTO user = userService.findById(1L);
-            userService.addBook(user.getId(), bookSavedDTO);
-
-            for(BookDTO bookDTO: booksDTO){
-                System.out.println(bookDTO);
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+    public void choiceProcessing(List<BookDTO> booksOptions) {
+        boolean answer;
+        List<BookDTO> booksToShow = new ArrayList<>();
+        for (BookDTO book:booksOptions){
+            booksToShow.add(book);
         }
+        do {
+            if (booksToShow.isEmpty()) {
+                System.out.println("There are no results to show");
+                break;
+            }
+            else{
+
+                int pos = 1;
+                for (BookDTO i : booksToShow) {
+                    System.out.println("[" + pos + "]" + " " + i.toString(false));
+                    pos++;
+                }
+                System.out.print("/Choose the book[id] you want to add to the library \n");
+
+                int choice = UserInput.getIntBetween(1, pos) - 1;
+                bookService.saveBook(booksToShow.get(choice));
+                booksToShow.remove(choice);
+                System.out.println("Keep adding books? [y/n]");
+                answer = UserInput.getYesNo();
+            }
+        } while (answer);
+
 
     }
 
@@ -62,7 +78,7 @@ public class ApiServiceImpl implements ApiService {
         String title = new Scanner(System.in).nextLine();
         String titleFixed = title.trim();
         titleFixed = titleFixed.toLowerCase();
-        titleFixed = titleFixed.replace(" ","+");
+        titleFixed = titleFixed.replace(" ", "+");
 
         System.out.println("How many results do you want?");
         int limit = new Scanner(System.in).nextInt();
