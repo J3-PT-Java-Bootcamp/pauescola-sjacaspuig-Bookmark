@@ -18,6 +18,9 @@ public class MainService {
     @Autowired
     ApiService apiService;
 
+    @Autowired
+    BookService bookService;
+
     @EventListener(ApplicationReadyEvent.class)
     public void MainService() {
 
@@ -47,6 +50,15 @@ public class MainService {
                     } catch (ParseException e) {
                         throw new RuntimeException("Book not found");
                     }
+                }),
+                new Command<>("show library", CommandType.SHOW_LIBRARY).addOnRun((cr) -> {
+                   bookService.printList(bookService.showAll());
+                }),
+                new Command<>("assign book", CommandType.SHOW_LIBRARY).addOnRun((cr) -> {
+                    bookService.printList(bookService.showAll());
+                }),
+                new Command<>("show library", CommandType.SHOW_LIBRARY).addOnRun((cr) -> {
+                    bookService.printList(bookService.showAll());
                 }),
         });
 

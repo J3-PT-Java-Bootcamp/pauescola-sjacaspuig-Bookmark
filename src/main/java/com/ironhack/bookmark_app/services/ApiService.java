@@ -1,6 +1,7 @@
 package com.ironhack.bookmark_app.services;
 
 import com.google.gson.Gson;
+import com.ironhack.bookmark_app.dto.BookDTO;
 import com.ironhack.bookmark_app.model.Book;
 
 import com.ironhack.bookmark_app.userinput.UserInput;
@@ -20,7 +21,7 @@ import java.util.Scanner;
 @Service
 public class ApiService {
     @Autowired
-    BookServiceImpl bookService;
+    BookService bookService;
 
     final int size = 16 * 1024 * 1024;
     final ExchangeStrategies strategies = ExchangeStrategies.builder()
@@ -37,24 +38,33 @@ public class ApiService {
     }
 
     public void choiceProcessing(List<Book> booksOptions) {
-        boolean answer = true;
-        if (booksOptions.isEmpty()) System.out.println("There are no results to show");
-        else {
-            do {
-                int pos = 1;
-                for (Book i : booksOptions) {
-                    System.out.println("[" + pos + "]" + " " + i);
-                    pos++;
-                }
-                System.out.print("/Choose the book[id] you want to add to the library \n");
-
-                int choice = UserInput.getIntBetween(1, pos) - 1;
-                bookService.saveBook(booksOptions.get(choice));
-                booksOptions.remove(choice);
-                System.out.println("Keep adding books? [y/n]");
-                answer = UserInput.getYesNo();
-            } while (!answer);
+        boolean answer;
+        List<BookDTO> booksToShow = new ArrayList<>();
+        for (Book book:booksOptions){
+            booksToShow.add(new BookDTO().fromEntity(book));
         }
+            do {
+                if (booksToShow.isEmpty()) {
+                    System.out.println("There are no results to show");
+                    break;
+                }
+                else{
+
+                    int pos = 1;
+                    for (BookDTO i : booksToShow) {
+                        System.out.println("[" + pos + "]" + " " + i.toString(false));
+                        pos++;
+                    }
+                    System.out.print("/Choose the book[id] you want to add to the library \n");
+
+                    int choice = UserInput.getIntBetween(1, pos) - 1;
+                    bookService.saveBook(new Book().fromDTO(booksToShow.get(choice)));
+                    booksToShow.remove(choice);
+                    System.out.println("Keep adding books? [y/n]");
+                    answer = UserInput.getYesNo();
+                }
+            } while (answer);
+
 
     }
 
