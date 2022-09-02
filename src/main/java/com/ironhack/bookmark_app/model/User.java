@@ -25,7 +25,11 @@ public class User {
     @NotNull
     private String name;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(
+            mappedBy = "user",
+            fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL
+    )
     private List<Favourite> favourites;
 
     public User(String name) {

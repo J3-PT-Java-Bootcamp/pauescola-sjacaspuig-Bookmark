@@ -21,7 +21,7 @@ public class BookServiceImpl implements BookService {
     public void showAll() {
         bookRepository.findAll().forEach((Book book) -> {
             var bookDTO = BookDTO.fromEntity(book);
-            System.out.println("\n" + bookDTO.toString()  + "\n");
+            System.out.println("\n" + bookDTO.toString(true));
         });
     }
 

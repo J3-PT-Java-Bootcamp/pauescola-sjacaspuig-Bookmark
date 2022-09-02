@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
     public void showAll() {
         userRepository.findAll().forEach((User user) -> {
             var userDTO = UserDTO.fromEntity(user);
-            System.out.println("\n" + userDTO.toString()  + "\n");
+            System.out.println("\n" + userDTO);
         });
     }
 
