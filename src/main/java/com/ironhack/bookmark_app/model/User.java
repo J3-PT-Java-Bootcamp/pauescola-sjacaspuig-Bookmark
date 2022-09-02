@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -33,7 +34,7 @@ public class User {
 
     public User(String name) {
         this.name = name;
-        this.favourites = List.of();
+        this.favourites = new ArrayList<>();
     }
 
     public static User fromDTO(UserDTO userDTO) {
@@ -41,7 +42,7 @@ public class User {
         user.setId(userDTO.getId());
         user.setName(userDTO.getName());
 
-        List<Favourite> favourites = List.of();
+        List<Favourite> favourites =  new ArrayList<>();
         for (FavouriteDTO favouriteDTO: userDTO.getFavourites()) {
             var favourite = Favourite.fromDTO(favouriteDTO);
             favourites.add(favourite);

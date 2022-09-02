@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
@@ -20,7 +21,7 @@ public class UserDTO {
     private List<FavouriteDTO> favourites;
 
     public static UserDTO fromEntity(User user) {
-        List<FavouriteDTO> favouritesDTO = List.of();
+        List<FavouriteDTO> favouritesDTO = new ArrayList<>();
         for (Favourite favourite: user.getFavourites()) {
             var favouriteDTO = FavouriteDTO.fromEntity(favourite);
             favouritesDTO.add(favouriteDTO);
