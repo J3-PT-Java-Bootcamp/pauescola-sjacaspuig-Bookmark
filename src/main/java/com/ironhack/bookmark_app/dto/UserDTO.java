@@ -19,7 +19,7 @@ public class UserDTO {
     private String name;
     private List<Favourite> favourites;
 
-    public UserDTO fromEntity(User user) {
+    public static UserDTO fromEntity(User user) {
         return new UserDTO(user.getId(), user.getName(), user.getFavourites());
     }
 

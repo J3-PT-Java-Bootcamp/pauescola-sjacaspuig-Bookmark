@@ -19,14 +19,13 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotNull
     private Long id;
 
     @NotNull
     private String name;
 
     @NotNull
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
             name = "favourites_of_user",
             joinColumns = @JoinColumn(name="user_id"),
@@ -39,7 +38,7 @@ public class User {
         this.favourites = new ArrayList<>();
     }
 
-    public User fromDTO(UserDTO userDTO) {
+    public static User fromDTO(UserDTO userDTO) {
         var user = new User();
         user.setId(userDTO.getId());
         user.setName(userDTO.getName());

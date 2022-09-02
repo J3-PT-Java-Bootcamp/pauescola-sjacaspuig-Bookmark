@@ -18,7 +18,7 @@ public class FavouriteDTO {
     private Book item;
     private FavouriteStatus status;
 
-    public FavouriteDTO fromEntity(Favourite favourite) {
+    public static FavouriteDTO fromEntity(Favourite favourite) {
         return new FavouriteDTO(favourite.getId(), favourite.getItem(), favourite.getStatus());
     }
 }
