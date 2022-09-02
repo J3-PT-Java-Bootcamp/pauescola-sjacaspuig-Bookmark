@@ -28,6 +28,6 @@ public class BookDTO {
                     "Title: " + title + "\n" +
                     "Author(s): " + authorName + "\n";
         }
-        else {return  "Title: " + title + "   "+"Author(s): " + authorName +".";}
+        else {return  "[" + id + "] Title: " + title + "   "+"Author(s): " + authorName;}
     }
 }

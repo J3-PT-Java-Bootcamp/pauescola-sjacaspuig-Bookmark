@@ -59,12 +59,12 @@ public class ApiServiceImpl implements ApiService {
                     System.out.println("[" + pos + "]" + " " + i.toString(false));
                     pos++;
                 }
-                System.out.print("/Choose the book[id] you want to add to the library \n");
+                System.out.print("\nChoose the book [id] that you want to add to the library\n");
 
                 int choice = UserInput.getIntBetween(1, pos) - 1;
                 bookService.saveBook(booksToShow.get(choice));
                 booksToShow.remove(choice);
-                System.out.println("Keep adding books? [y/n]");
+                System.out.println("Keep adding books of the previous list? [y/n]");
                 answer = UserInput.getYesNo();
             }
         } while (answer);
@@ -74,14 +74,16 @@ public class ApiServiceImpl implements ApiService {
 
     @Override
     public List<BookDTO> findByTitle() throws ParseException {
-        System.out.println("Write the title:");
+        System.out.println("Search by title:\n");
         String title = new Scanner(System.in).nextLine();
         String titleFixed = title.trim();
         titleFixed = titleFixed.toLowerCase();
         titleFixed = titleFixed.replace(" ", "+");
 
-        System.out.println("How many results do you want?");
+        System.out.println("How many results do you want?\n");
         int limit = new Scanner(System.in).nextInt();
+
+        System.out.println("\nLoading...\n");
 
         var bookResults = client.get()
                 .uri("https://openlibrary.org/search.json?title=" + titleFixed + "&limit=" + limit)

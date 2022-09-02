@@ -3,6 +3,7 @@ package com.ironhack.bookmark_app.services;
 import com.ironhack.bookmark_app.commander.Command;
 import com.ironhack.bookmark_app.commander.Commander;
 import com.ironhack.bookmark_app.enums.CommandType;
+import com.ironhack.bookmark_app.error.NotFoundException;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -34,7 +35,10 @@ public class MainService {
                 new Command<>("help", CommandType.HELP).addOnRun((cr) -> {
                     System.out.println("\nAvailable commands:");
                     System.out.println("\t1. exit - Exit the application");
+                    // TODO: Fill help command
                 }),
+
+                // USER
                 new Command<>("new user", CommandType.NEW_USER).addOnRun((cr) -> {
                     userService.createUser();
                 }),
@@ -44,21 +48,35 @@ public class MainService {
                 new Command<>("show users", CommandType.SHOW_USERS).addOnRun((cr) -> {
                     userService.showAll();
                 }),
+
+                // BOOK
                 new Command<>("search book", CommandType.SEARCH_BOOK).addOnRun((cr) -> {
                     try {
                         apiService.searchBook();
                     } catch (ParseException e) {
                         throw new RuntimeException("Book not found");
                     }
-
                 }),
-                new Command<>("show library", CommandType.SHOW_LIBRARY).addOnRun((cr) -> {
+                new Command<>("show books", CommandType.SHOW_BOOKS).addOnRun((cr) -> {
                     bookService.showAll();
                 }),
-                new Command<>("assign book", CommandType.SHOW_LIBRARY).addOnRun((cr) -> {
-                    bookService.showAll();
+                new Command<>("lookup book :id", CommandType.LOOKUP_BOOK).addOnRun((cr) -> {
+                    bookService.showById(cr.getParameter("id"));
                 }),
 
+                // BOOK TO USER
+                new Command<>("assign book :bookId to user :userId", CommandType.ASSIGN_BOOK_TO_USER).addOnRun((cr) -> {
+                    try {
+                        userService.assignBook(cr.getLongParameter("userId"), cr.getParameter("bookId"));
+                    } catch (NotFoundException e) {
+                        throw new RuntimeException("The book was not assigned to the user. An error occurred.");
+                    }
+                }),
+
+                // FAVOURITES
+                // TODO: Create commands
+
+                // REPORTS
                 new Command<>("report users by book", CommandType.USERS_BY_BOOK).addOnRun((cr) -> {
                     bookService.showAll();
                 }),

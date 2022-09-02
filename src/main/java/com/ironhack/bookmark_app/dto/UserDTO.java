@@ -17,19 +17,35 @@ public class UserDTO {
 
     private Long id;
     private String name;
-    private List<Favourite> favourites;
+    private List<FavouriteDTO> favourites;
 
     public static UserDTO fromEntity(User user) {
-        return new UserDTO(user.getId(), user.getName(), user.getFavourites());
+        List<FavouriteDTO> favouritesDTO = List.of();
+        for (Favourite favourite: user.getFavourites()) {
+            var favouriteDTO = FavouriteDTO.fromEntity(favourite);
+            favouritesDTO.add(favouriteDTO);
+        }
+        return new UserDTO(user.getId(), user.getName(), favouritesDTO);
     }
 
     @Override
     public String toString() {
-        final StringBuffer sb = new StringBuffer("User {\n");
-        sb.append("   id=").append(id).append("\n");
-        sb.append("   name='").append(name).append('\'').append("\n");
-        sb.append("   favourites=").append(favourites).append("\n");
-        sb.append('}');
+        return "[" + id + "]" + "\n" +
+                "Name: " + name + "\n" +
+                "Favourites: " + favouritesToString() + "\n";
+    }
+
+    private String favouritesToString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[").append("\n");
+        var counter = 1;
+        for (FavouriteDTO favourite : favourites) {
+            sb.append(favourite);
+            if(counter != favourites.size()) sb.append("\n");
+            counter++;
+        }
+        sb.append("]");
         return sb.toString();
     }
 }
+
