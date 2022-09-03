@@ -97,12 +97,12 @@ public class UserServiceImpl implements UserService {
         userFavourites.add(favourite);
         user.setFavourites(userFavourites);
 
-       /* var userSaved = userRepository.save(user);*/
+        var userSaved = userRepository.save(user);
 
         System.out.println("Book correctly assigned");
-        showById(user.getId());
+        showById(userSaved.getId());
 
-        return UserDTO.fromEntity(user);
+        return UserDTO.fromEntity(userSaved);
     }
 
     private boolean hasFavouriteSaved(UserDTO user, BookDTO book) {
