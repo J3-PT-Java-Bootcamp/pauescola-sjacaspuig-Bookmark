@@ -22,6 +22,9 @@ public class MainService {
     @Autowired
     BookService bookService;
 
+    @Autowired
+    FavouriteService favouriteService;
+
     @EventListener(ApplicationReadyEvent.class)
     public void MainService() {
 
@@ -34,8 +37,14 @@ public class MainService {
                 new Command<>("exit", CommandType.EXIT),
                 new Command<>("help", CommandType.HELP).addOnRun((cr) -> {
                     System.out.println("\nAvailable commands:");
-                    System.out.println("\t1. exit - Exit the application");
-                    // TODO: Fill help command
+                    System.out.println("\t1. new user");
+                    System.out.println("\t2. lookup user :id");
+                    System.out.println("\t3. show users");
+                    System.out.println("\t4. search book");
+                    System.out.println("\t5. show books");
+                    System.out.println("\t6. lookup book :id");
+                    System.out.println("\t7. assign book :bookId to user :userId");
+                    System.out.println("\t8. status user books :id");
                 }),
 
                 // USER
@@ -53,7 +62,7 @@ public class MainService {
                 new Command<>("search book", CommandType.SEARCH_BOOK).addOnRun((cr) -> {
                     try {
                         apiService.searchBook();
-                    } catch (ParseException e) {
+                    } catch (ParseException | NotFoundException e) {
                         throw new RuntimeException("Book not found");
                     }
                 }),
@@ -74,33 +83,13 @@ public class MainService {
                 }),
 
                 // FAVOURITES
-                // TODO: Create commands
-
-                // REPORTS
-                new Command<>("report users by book", CommandType.USERS_BY_BOOK).addOnRun((cr) -> {
-                    bookService.showAll();
-                }),
-                new Command<>("report users to read by book", CommandType.USERS_TO_READ_BY_BOOK).addOnRun((cr) -> {
-                    bookService.showAll();
-                }),
-                new Command<>("report users reading by book", CommandType.USERS_READING_BY_BOOK).addOnRun((cr) -> {
-                    bookService.showAll();
-                }),
-                new Command<>("report users read by user", CommandType.USERS_READ_BY_BOOK).addOnRun((cr) -> {
-                    bookService.showAll();
-                }),
-                new Command<>("report books by user", CommandType.BOOKS_BY_USER).addOnRun((cr) -> {
-                    bookService.showAll();
-                }),
-                new Command<>("report books to read by user", CommandType.BOOKS_TO_READ_BY_USER).addOnRun((cr) -> {
-                    bookService.showAll();
-                }),
-                new Command<>("report books reading by user", CommandType.BOOKS_READING_BY_USER).addOnRun((cr) -> {
-                    bookService.showAll();
-                }),
-                new Command<>("report books read by user", CommandType.BOOKS_READ_BY_USER).addOnRun((cr) -> {
-                    bookService.showAll();
-                }),
+                new Command<>("status user books :id", CommandType.STATUS_BOOKS_USER).addOnRun((cr) -> {
+                    try {
+                        favouriteService.updateStatus(cr.getLongParameter("id"));
+                    } catch (NotFoundException e) {
+                        throw new RuntimeException("The status could not be changed. An error has occurred.");
+                    }
+                })
         });
 
         // Run event when a command is executed

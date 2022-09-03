@@ -2,7 +2,8 @@ package com.ironhack.bookmark_app.services;
 
 import com.google.gson.Gson;
 import com.ironhack.bookmark_app.dto.BookDTO;
-import com.ironhack.bookmark_app.model.Book;
+import com.ironhack.bookmark_app.dto.UserDTO;
+import com.ironhack.bookmark_app.error.NotFoundException;
 
 import com.ironhack.bookmark_app.userinput.UserInput;
 import org.json.simple.JSONArray;
@@ -36,12 +37,12 @@ public class ApiServiceImpl implements ApiService {
             .build();
 
     @Override
-    public void searchBook() throws ParseException {
+    public void searchBook() throws ParseException, NotFoundException {
         List<BookDTO> booksDTO = findByTitle();
         choiceProcessing(booksDTO);
     }
 
-    public void choiceProcessing(List<BookDTO> booksOptions) {
+    public void choiceProcessing(List<BookDTO> booksOptions) throws NotFoundException {
         boolean answer;
         List<BookDTO> booksToShow = new ArrayList<>();
         for (BookDTO book:booksOptions){
@@ -60,10 +61,16 @@ public class ApiServiceImpl implements ApiService {
                     pos++;
                 }
                 System.out.print("\nChoose the book [id] that you want to add to the library\n");
-
                 int choice = UserInput.getIntBetween(1, pos) - 1;
-                bookService.saveBook(booksToShow.get(choice));
+                var bookSelected = booksToShow.get(choice);
+                bookService.saveBook(bookSelected);
                 booksToShow.remove(choice);
+
+                System.out.println("Do you want to assign the book to some user? [y/n]");
+                var answerAssign = UserInput.getYesNo();
+
+                if (answerAssign) assignBookToUser(bookSelected);
+
                 System.out.println("Keep adding books of the previous list? [y/n]");
                 answer = UserInput.getYesNo();
             }
@@ -110,6 +117,21 @@ public class ApiServiceImpl implements ApiService {
         }
 
         return booksFound;
+    }
+
+    private void assignBookToUser(BookDTO bookDTO) throws NotFoundException {
+        var usersDTO = userService.findAll();
+
+        int pos = 1;
+        for (UserDTO userDTO : usersDTO) {
+            System.out.println("[" + pos + "] Name: " + userDTO.getName());
+            pos++;
+        }
+        System.out.print("\nChoose the user [id]\n");
+        int posUser = UserInput.getIntBetween(1, pos) - 1;
+        var userDTO = usersDTO.get(posUser);
+
+        userService.assignBook(userDTO.getId(), bookDTO.getId());
     }
 
 }

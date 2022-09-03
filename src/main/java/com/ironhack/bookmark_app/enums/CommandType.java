@@ -18,4 +18,6 @@ public enum CommandType {
     BOOKS_TO_READ_BY_USER,
     BOOKS_READING_BY_USER,
     BOOKS_READ_BY_USER,
+    STATUS_BOOKS_USER
+
 }
