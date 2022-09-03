@@ -18,15 +18,10 @@ public class UserDTO {
 
     private Long id;
     private String name;
-    private List<FavouriteDTO> favourites;
+    private List<Favourite> favourites;
 
     public static UserDTO fromEntity(User user) {
-        List<FavouriteDTO> favouritesDTO = new ArrayList<>();
-        for (Favourite favourite: user.getFavourites()) {
-            var favouriteDTO = FavouriteDTO.fromEntity(favourite);
-            favouritesDTO.add(favouriteDTO);
-        }
-        return new UserDTO(user.getId(), user.getName(), favouritesDTO);
+        return new UserDTO(user.getId(), user.getName(), user.getFavourites());
     }
 
     @Override
@@ -40,12 +35,13 @@ public class UserDTO {
         StringBuilder sb = new StringBuilder();
         sb.append("[").append("\n");
         var counter = 1;
-        for (FavouriteDTO favourite : favourites) {
-            sb.append(favourite);
+        for (Favourite favourite : favourites) {
+            var favouriteDTO = FavouriteDTO.fromEntity(favourite);
+            sb.append("  ").append(favouriteDTO.toStringHorizontal());
             if(counter != favourites.size()) sb.append("\n");
             counter++;
         }
-        sb.append("]");
+        sb.append("\n]");
         return sb.toString();
     }
 }

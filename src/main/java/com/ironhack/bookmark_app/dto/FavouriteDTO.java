@@ -29,6 +29,10 @@ public class FavouriteDTO {
                 "Status: " + statusToString() + "\n";
     }
 
+    public String toStringHorizontal() {
+        return "Book Name: " + item.getTitle() + "   "+"Status: " + statusToString();
+    }
+
     private String statusToString() {
         var s = "";
         switch (status) {

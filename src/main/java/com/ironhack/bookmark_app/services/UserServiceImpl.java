@@ -12,6 +12,7 @@ import com.ironhack.bookmark_app.userinput.UserInput;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -44,6 +45,19 @@ public class UserServiceImpl implements UserService {
         final var user = userRepository.findById(id).orElseThrow(() -> new NotFoundException());
         var userDTO = UserDTO.fromEntity(user);
         return userDTO;
+    }
+
+    @Override
+    public List<UserDTO> findAll() {
+        var users = userRepository.findAll();
+
+        List<UserDTO> usersDTO = new ArrayList<>();
+        for (User user: users) {
+            var userDTO = UserDTO.fromEntity(user);
+            usersDTO.add(userDTO);
+        }
+
+        return usersDTO;
     }
 
     @Override
@@ -93,7 +107,7 @@ public class UserServiceImpl implements UserService {
 
     private boolean hasFavouriteSaved(UserDTO user, BookDTO book) {
 
-        for (FavouriteDTO favourite: user.getFavourites()) {
+        for (Favourite favourite: user.getFavourites()) {
 
             if (Objects.equals(favourite.getItem().getId(), book.getId())) {
                 return true;

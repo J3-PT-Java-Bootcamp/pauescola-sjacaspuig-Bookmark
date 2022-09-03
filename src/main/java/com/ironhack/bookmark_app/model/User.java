@@ -28,7 +28,8 @@ public class User {
     @OneToMany(
             mappedBy = "user",
             fetch = FetchType.EAGER,
-            cascade = CascadeType.ALL
+            cascade = CascadeType.ALL,
+            orphanRemoval= true
     )
     private List<Favourite> favourites;
 
@@ -41,13 +42,7 @@ public class User {
         var user = new User();
         user.setId(userDTO.getId());
         user.setName(userDTO.getName());
-
-        List<Favourite> favourites =  new ArrayList<>();
-        for (FavouriteDTO favouriteDTO: userDTO.getFavourites()) {
-            var favourite = Favourite.fromDTO(favouriteDTO);
-            favourites.add(favourite);
-        }
-        user.setFavourites(favourites);
+        user.setFavourites(userDTO.getFavourites());
 
         return user;
     }
