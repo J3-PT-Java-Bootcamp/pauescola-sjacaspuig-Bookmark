@@ -10,4 +10,6 @@ public interface FavouriteService {
     FavouriteDTO findById(Long id) throws NotFoundException;
     void showAll();
     void showById(Long id);
+
+    void removeById(Long id) throws NotFoundException;
 }

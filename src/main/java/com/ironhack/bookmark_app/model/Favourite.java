@@ -32,7 +32,7 @@ public class Favourite {
 
     @ManyToOne
     @JoinColumn( name = "user_id")
-    @JsonIgnore
+   /* @JsonIgnore*/
     private User user;
 
     public Favourite(Book item, User user) {

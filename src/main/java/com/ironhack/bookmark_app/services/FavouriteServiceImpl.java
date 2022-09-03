@@ -86,4 +86,11 @@ public class FavouriteServiceImpl implements FavouriteService {
             System.out.println("\n" + error.getMessage() + "\n");
         }
     }
+
+    @Override
+    public void removeById(Long id) throws NotFoundException {
+        Favourite favToDelete = favouriteRepository.findById(id).orElseThrow(() -> new NotFoundException());
+        favouriteRepository.delete(favToDelete);
+        System.out.println(favToDelete.getUser().getName()+ " no longer has " + favToDelete.getItem().getTitle() + " assigned.");
+    }
 }

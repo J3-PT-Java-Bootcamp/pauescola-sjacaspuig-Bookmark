@@ -45,6 +45,7 @@ public class MainService {
                     System.out.println("\t6. lookup book :id");
                     System.out.println("\t7. assign book :bookId to user :userId");
                     System.out.println("\t8. status user books :id");
+                    System.out.println("\t8. remove a favourite :id");
                 }),
 
                 // USER
@@ -86,6 +87,13 @@ public class MainService {
                 new Command<>("status user books :id", CommandType.STATUS_BOOKS_USER).addOnRun((cr) -> {
                     try {
                         favouriteService.updateStatus(cr.getLongParameter("id"));
+                    } catch (NotFoundException e) {
+                        throw new RuntimeException("The status could not be changed. An error has occurred.");
+                    }
+                }),
+                new Command<>("remove favourite :id", CommandType.REMOVE_FAVOURITE).addOnRun((cr) -> {
+                    try {
+                        favouriteService.removeById(cr.getLongParameter("id"));
                     } catch (NotFoundException e) {
                         throw new RuntimeException("The status could not be changed. An error has occurred.");
                     }
