@@ -4,6 +4,8 @@ import com.ironhack.bookmark_app.commander.Command;
 import com.ironhack.bookmark_app.commander.Commander;
 import com.ironhack.bookmark_app.enums.CommandType;
 import com.ironhack.bookmark_app.error.NotFoundException;
+import com.ironhack.bookmark_app.services.reports.BookReportService;
+import com.ironhack.bookmark_app.services.reports.UserReportService;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -24,6 +26,12 @@ public class MainService {
 
     @Autowired
     FavouriteService favouriteService;
+
+    @Autowired
+    BookReportService bookReportService;
+
+    @Autowired
+    UserReportService userReportService;
 
     @EventListener(ApplicationReadyEvent.class)
     public void MainService() {
@@ -97,6 +105,30 @@ public class MainService {
                     } catch (NotFoundException e) {
                         throw new RuntimeException("The status could not be changed. An error has occurred.");
                     }
+                }),
+                new Command<>("report users by book", CommandType.USERS_BY_BOOK).addOnRun((cr) -> {
+                    bookReportService.reportUsersByBook();
+                }),
+                new Command<>("report users to read by book", CommandType.USERS_TO_READ_BY_BOOK).addOnRun((cr) -> {
+                    bookReportService.reportUsersToReadByBook();
+                }),
+                new Command<>("report users reading by book", CommandType.USERS_READING_BY_BOOK).addOnRun((cr) -> {
+                    bookReportService.reportUsersReadingByBook();
+                }),
+                new Command<>("report users read by user", CommandType.USERS_READ_BY_BOOK).addOnRun((cr) -> {
+                    bookReportService.reportUsersReadByBook();
+                }),
+                new Command<>("report books by user", CommandType.BOOKS_BY_USER).addOnRun((cr) -> {
+                    userReportService.reportUsersByBook();
+                }),
+                new Command<>("report books to read by user", CommandType.BOOKS_TO_READ_BY_USER).addOnRun((cr) -> {
+                    userReportService.reportUsersToReadByBook();
+                }),
+                new Command<>("report books reading by user", CommandType.BOOKS_READING_BY_USER).addOnRun((cr) -> {
+                    userReportService.reportUsersReadingByBook();
+                }),
+                new Command<>("report books read by user", CommandType.BOOKS_READ_BY_USER).addOnRun((cr) -> {
+                    userReportService.reportUsersReadByBook();
                 })
         });
 

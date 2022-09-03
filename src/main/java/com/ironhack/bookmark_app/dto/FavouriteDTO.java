@@ -30,7 +30,7 @@ public class FavouriteDTO {
     }
 
     public String toStringHorizontal() {
-        return "Book Name: " + item.getTitle() + "   "+"Status: " + statusToString();
+        return "ID: " + item.getId() + "Book Name: " + item.getTitle() + "   "+"Status: " + statusToString();
     }
 
     private String statusToString() {

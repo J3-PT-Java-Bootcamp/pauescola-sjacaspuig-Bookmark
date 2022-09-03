@@ -26,7 +26,11 @@ public class Book {
     @NotNull
     private String authorName;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="item")
+    @OneToMany(
+            mappedBy="item",
+            fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL
+    )
     private List<Favourite> favourites;
 
     public Book(String id, String title, String author) {
